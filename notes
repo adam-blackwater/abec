@@ -1,0 +1,3 @@
+see events-service tests for examples on how to Fake DB connections 
+  - this could be used for fake internet connections?
+  - starts at line 52
