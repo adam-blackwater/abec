@@ -1,10 +1,11 @@
-import pprint
 import os
+import email
+import pprint
 import imaplib
 from models.account import Account
 from models.models import MessageData
 
-email = os.environ.get('EMAIL')
+email_address = os.environ.get('EMAIL')
 password = os.environ.get('PASSWORD')
 
 
@@ -15,28 +16,27 @@ def first_time_set_up(ans):
 
 
 def initalise_account():
-    return Account(email, email, password)
+    return Account(email_address, email_address, password)
 
 
-def build_message_parts(M, num):
-    # typ, data = M.fetch(num, '(RFC822)')
-    typ, envelope = M.fetch(num, 'ENVELOPE')
-    message_data = MessageData('x', envelope[0].decode('utf-8').split(' '))
-    return (typ, message_data)
+def get_message(M, num):
+    typ, data = M.fetch(num, '(RFC822)')
+    mail = data[0][1].decode('utf-8')
+    return (typ, mail)
 
 
 def access_account(account):
     pp = pprint.PrettyPrinter(indent=4)
     try:
         with imaplib.IMAP4_SSL('imap.googlemail.com') as M:
-            print(M.login(account.email, account.password))
+            print(M.login(account.email_address, account.password))
             print(M.select('INBOX'))
             pp.pprint(M.list())
             typ, data = M.search(None, 'ALL')
             for num in data[0].split():
-                typ, message_data = build_message_parts(M, num)
-                # print('Message %s - %s\n%s\n' % (typ, num, data[0]))
-                print(message_data.get_envelope()[9], '\n')
+                typ, mail = get_message(M, num)
+                print(typ, mail)
+
             print(M.close())
             print(M.logout())
     except ConnectionRefusedError as cre:
