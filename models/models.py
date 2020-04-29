@@ -1,3 +1,10 @@
+class MessagePayload():
+
+    def __init__(self, plain_text, html):
+        self.plain_text = plain_text
+        self.html = html
+
+
 class MessageBody():
 
     def __init__(self, body, headers, uid):
@@ -10,9 +17,11 @@ class MessageBody():
 
 class MessageData():
 
-    def __init__(self, headers, envelope):
+    def __init__(self, headers, envelope, plain_text, html):
         self.headers = headers
         self.envelope = envelope
+        self.plain_text = plain_text
+        self.html = html
 
     def get_headers(self):
         return self.headers
@@ -21,11 +30,10 @@ class MessageData():
         return self.envelope
 
 
-class FullMessage():
+class MessageFull():
 
-    def __init__(self, message, uid):
-        self.message = message
-        self.uid = uid
+    def __init__(self, payload):
+        self.payload = payload
 
 
 class Adress():

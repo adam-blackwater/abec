@@ -3,7 +3,7 @@ import email
 import pprint
 import imaplib
 from models.account import Account
-from models.models import MessageData
+from models.models import MessageFull, MessagePayload
 
 email_address = os.environ.get('EMAIL')
 password = os.environ.get('PASSWORD')
@@ -21,8 +21,7 @@ def initalise_account():
 
 def get_message(M, num):
     typ, data = M.fetch(num, '(RFC822)')
-    mail = data[0][1].decode('utf-8')
-    return (typ, mail)
+    return (typ, data)
 
 
 def access_account(account):
@@ -33,10 +32,16 @@ def access_account(account):
             print(M.select('INBOX'))
             pp.pprint(M.list())
             typ, data = M.search(None, 'ALL')
+            messages = list()
             for num in data[0].split():
-                typ, mail = get_message(M, num)
-                print(typ, mail)
+                typ, data = get_message(M, num)
+                mail = email.message_from_bytes(data[0][1])
+                payload = MessagePayload(
+                        mail.get_payload(0), mail.get_payload(1))
+                message = MessageFull(payload)
+                messages.append(message)
 
+            print(messages[6].payload.plain_text)
             print(M.close())
             print(M.logout())
     except ConnectionRefusedError as cre:
