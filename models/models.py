@@ -1,44 +1,14 @@
-class MessagePayload():
+class Envelope():
 
-    def __init__(self, plain_text, html):
-        self.plain_text = plain_text
-        self.html = html
+    def __init__(self, to, frm, subject, date, reply_to, cc, bcc, mail_id):
+        self.to = to
+        self.frm = frm 
+        self.subject = subject
+        self.date = date
+        self.reply_to = reply_to
+        self.cc = cc
+        self.bcc = bcc
+        self.mail_id = mail_id
 
-
-class MessageBody():
-
-    def __init__(self, body, headers, uid):
-        self.body = body
-        self.uid = uid
-
-    def get(self):
-        return self.message
-
-
-class MessageData():
-
-    def __init__(self, headers, envelope, plain_text, html):
-        self.headers = headers
-        self.envelope = envelope
-        self.plain_text = plain_text
-        self.html = html
-
-    def get_headers(self):
-        return self.headers
-
-    def get_envelope(self):
-        return self.envelope
-
-
-class MessageFull():
-
-    def __init__(self, payload):
-        self.payload = payload
-
-
-class Adress():
-
-    def __init__(self, name, mailbox, host):
-        self.name = name
-        self.mailbox = mailbox
-        self. host = host
+    def out(self):
+        return f'{self.to}: {self.frm}: {self.subject}: {self.date}: {self.reply_to}: {self.cc}: {self.bcc}: {self.mail_id}'

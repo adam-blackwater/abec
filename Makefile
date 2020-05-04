@@ -1,4 +1,5 @@
 include .env
+export 
 
 install: 
 	pip install -r requirements
