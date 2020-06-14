@@ -12,3 +12,11 @@ class Envelope():
 
     def out(self):
         return f'{self.to}: {self.frm}: {self.subject}: {self.date}: {self.reply_to}: {self.cc}: {self.bcc}: {self.mail_id}'
+
+class MessageData():
+
+    def __init__(self, body):
+        self.body = body
+
+    def out(self):
+        return f'{self.body}'
