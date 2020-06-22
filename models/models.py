@@ -2,7 +2,7 @@ class Envelope():
 
     def __init__(self, to, frm, subject, date, reply_to, cc, bcc, mail_id):
         self.to = to
-        self.frm = frm 
+        self.frm = frm
         self.subject = subject
         self.date = date
         self.reply_to = reply_to
@@ -12,6 +12,7 @@ class Envelope():
 
     def out(self):
         return f'{self.to}: {self.frm}: {self.subject}: {self.date}: {self.reply_to}: {self.cc}: {self.bcc}: {self.mail_id}'
+
 
 class MessageData():
 
